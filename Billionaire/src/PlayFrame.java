@@ -6,6 +6,7 @@ import java.io.*;
 
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -19,6 +20,11 @@ public class PlayFrame extends JFrame{
 	
 private ArrayList<Questions> questions = new ArrayList<Questions>();
 private ArrayList<Questions> used=new ArrayList<Questions>();
+
+private BackgroundPanel back;
+private Image background;
+
+JPanel masterPanel;
 	
 JLabel Qlbl;
 JLabel Questionlbl;
@@ -39,15 +45,38 @@ public PlayFrame(){
 	
 	questions=deserializing();
 	
-	Qlbl=new JLabel("Question: ");
+	try
+	{
+		background = ImageIO.read(new File("Game_Play\\background2.png"));
+	}
+	catch (IOException e)
+	{
+			e.printStackTrace();
+	}
+	
+	back = new BackgroundPanel(background);
+	setContentPane(back);
+	back.setLayout(new BorderLayout(5,5));
+	
+	Qlbl=new JLabel("");
 	//na prosthesw apo pou tha pairnei thn erwthsh
 	Questionlbl=new JLabel();
+
+	Questionlbl.setFont(Questionlbl.getFont().deriveFont(24.0f));
 	
 	//na orisw apo pou tha pairnoun times
 	ans1rb=new JRadioButton();
+	ans1rb.setFont(ans1rb.getFont().deriveFont(24.0f));
+	ans1rb.setOpaque(false);
 	ans2rb=new JRadioButton();
+	ans2rb.setFont(ans2rb.getFont().deriveFont(24.0f));
+	ans2rb.setOpaque(false);
 	ans3rb=new JRadioButton();
+	ans3rb.setFont(ans3rb.getFont().deriveFont(24.0f));
+	ans3rb.setOpaque(false);
 	ans4rb=new JRadioButton();
+	ans4rb.setFont(ans4rb.getFont().deriveFont(24.0f));
+	ans4rb.setOpaque(false);
 	
 	//dhmiourgia group kai prosthiki radio buttons
 	 ButtonGroup group = new ButtonGroup();
@@ -65,10 +94,14 @@ public PlayFrame(){
 	 Wronglbl.setForeground(Color.BLUE);
 	 
 	 JPanel question=new JPanel();
+	 question.setOpaque(false);
 	 question.add(Qlbl);
 	 question.add(Questionlbl);
 	 
 	 JPanel radioButtons=new JPanel();
+	 GridLayout gl=new GridLayout(2,2);
+	 radioButtons.setLayout(gl);
+	 radioButtons.setOpaque(false);
 	 radioButtons.add(ans1rb);
 	 radioButtons.add(ans2rb);
 	 radioButtons.add(ans3rb);
@@ -82,27 +115,45 @@ public PlayFrame(){
 	 comitButton.addActionListener(comitListener);
 	 
 	 JPanel button=new JPanel();
+	 button.setOpaque(false);
 	 button.add(comitButton);
 	 
 	 
 	 
 	 JPanel answerScore=new JPanel();
+	 answerScore.setOpaque(false);
 	 answerScore.add(Corrlbl);
 	 answerScore.add(Wronglbl);
 	 
+	 question.setBounds(10, 10, 480, 100);
+	 radioButtons.setBounds(10,130,480,100);
+	 button.setBounds(170,300,100,40);
+	 answerScore.setBounds(10, 450, 480, 40);
 	 
-	 JPanel masterPanel=new JPanel(new GridLayout(4,1));
-	 masterPanel.add(question);
-	 masterPanel.add(radioButtons);
-	 masterPanel.add(button);
-	 masterPanel.add(answerScore);
+//	 back.add(question);
+//	 back.add(radioButtons);
+//	 back.add(button);
+//	 back.add(answerScore);
+	 
+	masterPanel=new JPanel(new GridLayout(4,1));
+//	masterPanel=new JPanel();
+	masterPanel.add(question);
+	masterPanel.add(radioButtons);
+	masterPanel.add(button);
+	masterPanel.add(answerScore);
+	back.add(masterPanel);
 	 
 	
-	 this.setContentPane(masterPanel);
+
+	
+
+	 
+	
+//	 this.setContentPane(masterPanel);
 	 this.setTitle("Add Question");
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500,200);
+		this.setSize(500,500);
 		
 		//dhmiourgia tyxaias mhtras arithmwn
 		r=new Random(System.currentTimeMillis());
@@ -111,6 +162,8 @@ public PlayFrame(){
 		chooseQuestion();
 	
 }
+
+
 
 public void chooseQuestion(){
 	//methodos tyxaias epiloghs erwthsewn
@@ -209,4 +262,7 @@ public ArrayList<Questions> deserializing() {
 	}	
 	
 	
-}}
+}
+
+
+}
